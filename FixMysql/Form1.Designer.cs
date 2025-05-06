@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            label2 = new Label();
+            lb_MysqlStatus = new Label();
             textBox1 = new TextBox();
             label3 = new Label();
             button1 = new Button();
@@ -53,14 +53,14 @@
             label1.TabIndex = 0;
             label1.Text = "MySQL服务状态：";
             // 
-            // label2
+            // lb_MysqlStatus
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(249, 80);
-            label2.Name = "label2";
-            label2.Size = new Size(63, 24);
-            label2.TabIndex = 0;
-            label2.Text = "label1";
+            lb_MysqlStatus.AutoSize = true;
+            lb_MysqlStatus.Location = new Point(249, 80);
+            lb_MysqlStatus.Name = "lb_MysqlStatus";
+            lb_MysqlStatus.Size = new Size(46, 24);
+            lb_MysqlStatus.TabIndex = 0;
+            lb_MysqlStatus.Text = "未知";
             // 
             // textBox1
             // 
@@ -184,10 +184,11 @@
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(label3);
-            Controls.Add(label2);
+            Controls.Add(lb_MysqlStatus);
             Controls.Add(label1);
             Name = "Form1";
             Text = "FixMysql";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -195,7 +196,7 @@
         #endregion
 
         private Label label1;
-        private Label label2;
+        private Label lb_MysqlStatus;
         private TextBox textBox1;
         private Label label3;
         private Button button1;
