@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixMysql", "FixMysql\FixMysql.csproj", "{C7C4FBF5-5CA7-4DDB-B0D6-D7FA07F6709D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7C4FBF5-5CA7-4DDB-B0D6-D7FA07F6709D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7C4FBF5-5CA7-4DDB-B0D6-D7FA07F6709D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7C4FBF5-5CA7-4DDB-B0D6-D7FA07F6709D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7C4FBF5-5CA7-4DDB-B0D6-D7FA07F6709D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0CE7D0E4-D086-43B5-9C5D-A677FCA9AE6E}
+	EndGlobalSection
+EndGlobal
