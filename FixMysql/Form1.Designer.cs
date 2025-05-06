@@ -47,6 +47,8 @@
             textBox5 = new TextBox();
             label6 = new Label();
             txt_Log = new TextBox();
+            textBox6 = new TextBox();
+            label7 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -197,7 +199,7 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(282, 441);
+            textBox5.Location = new Point(282, 476);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(490, 30);
             textBox5.TabIndex = 3;
@@ -206,7 +208,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(44, 445);
+            label6.Location = new Point(44, 480);
             label6.Name = "label6";
             label6.Size = new Size(216, 24);
             label6.TabIndex = 5;
@@ -218,20 +220,39 @@
             txt_Log.Multiline = true;
             txt_Log.Name = "txt_Log";
             txt_Log.ScrollBars = ScrollBars.Both;
-            txt_Log.Size = new Size(723, 562);
+            txt_Log.Size = new Size(1174, 562);
             txt_Log.TabIndex = 6;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(283, 424);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(490, 30);
+            textBox6.TabIndex = 3;
+            textBox6.Text = "Server=127.0.0.1;Database=CloudBatteryTestSystem;Port=3306;charset=utf8;uid=root;pwd=hyn@123;SslMode=none;AllowPublicKeyRetrieval=true;Pooling=true";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(45, 428);
+            label7.Name = "label7";
+            label7.Size = new Size(172, 24);
+            label7.TabIndex = 5;
+            label7.Text = "数据库连接字符串：";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1610, 663);
+            ClientSize = new Size(2057, 663);
             Controls.Add(txt_Log);
             Controls.Add(label6);
+            Controls.Add(label7);
             Controls.Add(label2);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(textBox5);
+            Controls.Add(textBox6);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(btn_Restart);
@@ -273,5 +294,7 @@
         private TextBox textBox5;
         private Label label6;
         private TextBox txt_Log;
+        private TextBox textBox6;
+        private Label label7;
     }
 }
