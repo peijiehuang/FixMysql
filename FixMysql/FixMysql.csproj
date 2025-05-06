@@ -12,4 +12,13 @@
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="9.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="my.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="myFix.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

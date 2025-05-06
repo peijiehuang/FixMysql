@@ -32,9 +32,9 @@
             lb_MysqlStatus = new Label();
             textBox1 = new TextBox();
             label3 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btn_Start = new Button();
+            btn_Stop = new Button();
+            btn_Restart = new Button();
             button4 = new Button();
             button5 = new Button();
             button6 = new Button();
@@ -42,6 +42,11 @@
             textBox3 = new TextBox();
             label4 = new Label();
             label5 = new Label();
+            textBox4 = new TextBox();
+            label2 = new Label();
+            textBox5 = new TextBox();
+            label6 = new Label();
+            txt_Log = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -79,66 +84,69 @@
             label3.TabIndex = 0;
             label3.Text = "服务名称：";
             // 
-            // button1
+            // btn_Start
             // 
-            button1.Location = new Point(44, 148);
-            button1.Name = "button1";
-            button1.Size = new Size(105, 47);
-            button1.TabIndex = 2;
-            button1.Text = "启动";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btn_Start.Location = new Point(44, 148);
+            btn_Start.Name = "btn_Start";
+            btn_Start.Size = new Size(105, 47);
+            btn_Start.TabIndex = 2;
+            btn_Start.Text = "启动";
+            btn_Start.UseVisualStyleBackColor = true;
+            btn_Start.Click += btn_Start_Click;
             // 
-            // button2
+            // btn_Stop
             // 
-            button2.Location = new Point(191, 148);
-            button2.Name = "button2";
-            button2.Size = new Size(105, 47);
-            button2.TabIndex = 2;
-            button2.Text = "停止";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            btn_Stop.Location = new Point(191, 148);
+            btn_Stop.Name = "btn_Stop";
+            btn_Stop.Size = new Size(105, 47);
+            btn_Stop.TabIndex = 2;
+            btn_Stop.Text = "停止";
+            btn_Stop.UseVisualStyleBackColor = true;
+            btn_Stop.Click += btn_Stop_Click;
             // 
-            // button3
+            // btn_Restart
             // 
-            button3.Location = new Point(326, 148);
-            button3.Name = "button3";
-            button3.Size = new Size(105, 47);
-            button3.TabIndex = 2;
-            button3.Text = "重启";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            btn_Restart.Location = new Point(326, 148);
+            btn_Restart.Name = "btn_Restart";
+            btn_Restart.Size = new Size(105, 47);
+            btn_Restart.TabIndex = 2;
+            btn_Restart.Text = "重启";
+            btn_Restart.UseVisualStyleBackColor = true;
+            btn_Restart.Click += btn_Restart_Click;
             // 
             // button4
             // 
-            button4.Location = new Point(44, 395);
+            button4.Location = new Point(80, 554);
             button4.Name = "button4";
             button4.Size = new Size(167, 47);
             button4.TabIndex = 2;
             button4.Text = "修改配置文件";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button5
             // 
-            button5.Location = new Point(264, 395);
+            button5.Location = new Point(307, 554);
             button5.Name = "button5";
             button5.Size = new Size(167, 47);
             button5.TabIndex = 2;
             button5.Text = "备份数据库";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button6
             // 
-            button6.Location = new Point(514, 395);
+            button6.Location = new Point(550, 554);
             button6.Name = "button6";
             button6.Size = new Size(167, 47);
             button6.TabIndex = 2;
             button6.Text = "恢复数据库";
             button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(191, 263);
+            textBox2.Location = new Point(283, 263);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(490, 30);
             textBox2.TabIndex = 1;
@@ -146,7 +154,7 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(190, 316);
+            textBox3.Location = new Point(282, 316);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(490, 30);
             textBox3.TabIndex = 3;
@@ -170,20 +178,68 @@
             label5.TabIndex = 5;
             label5.Text = "备份配置路径：";
             // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(282, 376);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(490, 30);
+            textBox4.TabIndex = 3;
+            textBox4.Text = "CloudBatteryTestSystem";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(44, 380);
+            label2.Name = "label2";
+            label2.Size = new Size(144, 24);
+            label2.TabIndex = 5;
+            label2.Text = "MySQL数据库：";
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(282, 441);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(490, 30);
+            textBox5.TabIndex = 3;
+            textBox5.Text = "C:\\CloudBatteryTestSystem.sql";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(44, 445);
+            label6.Name = "label6";
+            label6.Size = new Size(216, 24);
+            label6.TabIndex = 5;
+            label6.Text = "MySQL数据库备份路径：";
+            // 
+            // txt_Log
+            // 
+            txt_Log.Location = new Point(840, 39);
+            txt_Log.Multiline = true;
+            txt_Log.Name = "txt_Log";
+            txt_Log.ScrollBars = ScrollBars.Both;
+            txt_Log.Size = new Size(723, 562);
+            txt_Log.TabIndex = 6;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(897, 524);
+            ClientSize = new Size(1610, 663);
+            Controls.Add(txt_Log);
+            Controls.Add(label6);
+            Controls.Add(label2);
             Controls.Add(label5);
             Controls.Add(label4);
+            Controls.Add(textBox5);
+            Controls.Add(textBox4);
             Controls.Add(textBox3);
-            Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(btn_Restart);
+            Controls.Add(btn_Stop);
             Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(button4);
-            Controls.Add(button1);
+            Controls.Add(btn_Start);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(label3);
@@ -202,9 +258,9 @@
         private Label lb_MysqlStatus;
         private TextBox textBox1;
         private Label label3;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button btn_Start;
+        private Button btn_Stop;
+        private Button btn_Restart;
         private Button button4;
         private Button button5;
         private Button button6;
@@ -212,5 +268,10 @@
         private TextBox textBox3;
         private Label label4;
         private Label label5;
+        private TextBox textBox4;
+        private Label label2;
+        private TextBox textBox5;
+        private Label label6;
+        private TextBox txt_Log;
     }
 }
