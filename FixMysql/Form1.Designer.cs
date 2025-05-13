@@ -50,6 +50,7 @@
             textBox6 = new TextBox();
             label7 = new Label();
             button1 = new Button();
+            button2 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -119,9 +120,9 @@
             // 
             // button4
             // 
-            button4.Location = new Point(210, 554);
+            button4.Location = new Point(175, 554);
             button4.Name = "button4";
-            button4.Size = new Size(167, 47);
+            button4.Size = new Size(143, 47);
             button4.TabIndex = 2;
             button4.Text = "修改配置文件";
             button4.UseVisualStyleBackColor = true;
@@ -129,9 +130,9 @@
             // 
             // button5
             // 
-            button5.Location = new Point(405, 554);
+            button5.Location = new Point(507, 554);
             button5.Name = "button5";
-            button5.Size = new Size(167, 47);
+            button5.Size = new Size(120, 47);
             button5.TabIndex = 2;
             button5.Text = "备份数据库";
             button5.UseVisualStyleBackColor = true;
@@ -140,9 +141,9 @@
             // button6
             // 
             button6.Enabled = false;
-            button6.Location = new Point(591, 554);
+            button6.Location = new Point(650, 554);
             button6.Name = "button6";
-            button6.Size = new Size(167, 47);
+            button6.Size = new Size(120, 47);
             button6.TabIndex = 2;
             button6.Text = "恢复数据库";
             button6.UseVisualStyleBackColor = true;
@@ -246,11 +247,21 @@
             // 
             button1.Location = new Point(12, 554);
             button1.Name = "button1";
-            button1.Size = new Size(167, 47);
+            button1.Size = new Size(140, 47);
             button1.TabIndex = 2;
             button1.Text = "清空异常数据";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(341, 554);
+            button2.Name = "button2";
+            button2.Size = new Size(143, 47);
+            button2.TabIndex = 2;
+            button2.Text = "恢复配置文件";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
@@ -272,6 +283,7 @@
             Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(button1);
+            Controls.Add(button2);
             Controls.Add(button4);
             Controls.Add(btn_Start);
             Controls.Add(textBox2);
@@ -310,5 +322,6 @@
         private TextBox textBox6;
         private Label label7;
         private Button button1;
+        private Button button2;
     }
 }

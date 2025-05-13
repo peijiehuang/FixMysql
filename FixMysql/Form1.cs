@@ -184,15 +184,16 @@ namespace FixMysql
                 else
                 {
                     SetLog($"{newFilePath}，运行程序目录下 myFix.ini 文件不存在");
-                    MessageBox.Show("运行程序目录下 myFix.ini 文件不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("运行程序目录下 myFix.ini 文件不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+             
+                SetLog($"{sourceFilePath}，my.ini 文件已成功替换");
+                //MessageBox.Show($"{sourceFilePath}，my.ini 文件已成功替换", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 // 重启 MySQL 服务
                 ManageMysqlService(ServiceActionEnum.Restart, textBox1.Text);
-
-                SetLog($"{sourceFilePath}，my.ini 文件已成功替换");
-                MessageBox.Show($"{sourceFilePath}，my.ini 文件已成功替换", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
@@ -242,7 +243,7 @@ namespace FixMysql
             string backupFilePath = Path.Combine(backupDir, backupFileName);
 
             // 配置文件路径
-            string sourceFilePath = @"C:\ProgramData\MySQL\MySQL Server 8.0\my.ini";
+            string sourceFilePath = textBox2.Text;
             string newFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "my.ini");
 
             try
@@ -487,6 +488,21 @@ namespace FixMysql
 
 
             ClearTables(result.Uid, result.Pwd, databaseName, ["BusinessStatisticsHistoricaldata"]);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //恢复配置文件
+            string newFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "my.ini");
+
+            // 配置文件路径
+            string sourceFilePath = textBox2.Text;
+
+            File.Copy(newFilePath, sourceFilePath, true);
+            SetLog($"恢复配置文件 my.ini 文件成功: {sourceFilePath}");
+
+            // 重启 MySQL 服务
+            ManageMysqlService(ServiceActionEnum.Restart, textBox1.Text);
         }
     }
 }
