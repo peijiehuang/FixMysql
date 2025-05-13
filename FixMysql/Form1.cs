@@ -225,15 +225,21 @@ namespace FixMysql
         private void button5_Click(object sender, EventArgs e)
         {
             // 数据库连接字符串
-            string connectionString = "Server=127.0.0.1;Database=CloudBatteryTestSystem;Port=3306;charset=utf8;uid=root;pwd=hyn@123;SslMode=none;AllowPublicKeyRetrieval=true;Pooling=true";
+            string connectionString = textBox6.Text;
 
             var result = ExtractUidAndPwd(connectionString);
 
             // 需要备份的数据库
-            string databaseName = "CloudBatteryTestSystem";
+            string databaseName = textBox4.Text;
 
-            // 备份文件路径
-            string backupFilePath = @"C:\CloudBatteryTestSystem.sql";
+            // 备份文件路径(文件名为当前时间年月日时分秒.sql，默认目录=C:\MysqlBak)
+            string backupDir = string.IsNullOrWhiteSpace(textBox5.Text) ? @"C:\MysqlBak" : textBox5.Text;
+            if (!Directory.Exists(backupDir))
+            {
+                Directory.CreateDirectory(backupDir);
+            }
+            string backupFileName = $"{DateTime.Now:yyyyMMddHHmmss}.sql";
+            string backupFilePath = Path.Combine(backupDir, backupFileName);
 
             // 配置文件路径
             string sourceFilePath = @"C:\ProgramData\MySQL\MySQL Server 8.0\my.ini";
@@ -244,13 +250,6 @@ namespace FixMysql
                 // Step 1: 备份数据库
                 using (var process = new Process())
                 {
-                    if (File.Exists(backupFilePath))
-                    {
-                        File.Delete(backupFilePath);
-                        SetLog($"已删除存在的备份文件: {backupFilePath}");
-                    }
-
-                  
                     // 修改 mysqldump 路径为绝对路径，假设 MySQL 安装在默认目录
                     string mysqlBinPath = @"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe";
                     if (!File.Exists(mysqlBinPath))
@@ -310,6 +309,55 @@ namespace FixMysql
                 MessageBox.Show($"操作失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        /// <summary>
+        /// 清空指定数据库中指定表的数据
+        /// </summary>
+        /// <param name="mysqlExePath">mysql.exe 的绝对路径</param>
+        /// <param name="uid">数据库用户名</param>
+        /// <param name="pwd">数据库密码</param>
+        /// <param name="databaseName">数据库名</param>
+        /// <param name="tableNames">要清空的表名集合</param>
+        /// <returns>是否全部清空成功</returns>
+        private bool ClearTables(string uid, string pwd, string databaseName, IEnumerable<string> tableNames)
+        {
+            string mysqlExePath = @"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe";
+            if (!File.Exists(mysqlExePath))
+            {
+                SetLog($"未找到 mysql.exe，请检查 MySQL 安装路径: {mysqlExePath}");
+                MessageBox.Show($"未找到 mysql.exe，请检查 MySQL 安装路径: {mysqlExePath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            foreach (var table in tableNames)
+            {
+                using (var process = new Process())
+                {
+                    process.StartInfo.FileName = mysqlExePath;
+                    process.StartInfo.Arguments = $"-u {uid} -p{pwd} -e \"USE {databaseName}; DELETE FROM {table};\"";
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    process.WaitForExit();
+                    if (process.ExitCode == 0)
+                    {
+                        SetLog($"清空异常数据成功 {table}");
+                    }
+                    else
+                    {
+                        string error = process.StandardError.ReadToEnd();
+                        SetLog($"清空异常数据失败: {table}，错误信息: {error}");
+                        MessageBox.Show($"清空异常数据失败: {table}\r\n{error}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -425,6 +473,20 @@ namespace FixMysql
             string uid = parameters.FirstOrDefault(p => p.StartsWith("uid=", StringComparison.OrdinalIgnoreCase))?.Split('=')[1] ?? string.Empty;
             string pwd = parameters.FirstOrDefault(p => p.StartsWith("pwd=", StringComparison.OrdinalIgnoreCase))?.Split('=')[1] ?? string.Empty;
             return (uid, pwd);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // 数据库连接字符串
+            string connectionString = textBox6.Text;
+
+            var result = ExtractUidAndPwd(connectionString);
+
+            // 需要备份的数据库
+            string databaseName = textBox4.Text;
+
+
+            ClearTables(result.Uid, result.Pwd, databaseName, ["BusinessStatisticsHistoricaldata"]);
         }
     }
 }

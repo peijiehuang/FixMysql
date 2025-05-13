@@ -49,6 +49,7 @@
             txt_Log = new TextBox();
             textBox6 = new TextBox();
             label7 = new Label();
+            button1 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -118,7 +119,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(80, 554);
+            button4.Location = new Point(210, 554);
             button4.Name = "button4";
             button4.Size = new Size(167, 47);
             button4.TabIndex = 2;
@@ -128,7 +129,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(307, 554);
+            button5.Location = new Point(405, 554);
             button5.Name = "button5";
             button5.Size = new Size(167, 47);
             button5.TabIndex = 2;
@@ -139,7 +140,7 @@
             // button6
             // 
             button6.Enabled = false;
-            button6.Location = new Point(550, 554);
+            button6.Location = new Point(591, 554);
             button6.Name = "button6";
             button6.Size = new Size(167, 47);
             button6.TabIndex = 2;
@@ -204,7 +205,7 @@
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(490, 30);
             textBox5.TabIndex = 3;
-            textBox5.Text = "C:\\CloudBatteryTestSystem.sql";
+            textBox5.Text = "C:\\MysqlBak";
             // 
             // label6
             // 
@@ -241,6 +242,16 @@
             label7.TabIndex = 5;
             label7.Text = "数据库连接字符串：";
             // 
+            // button1
+            // 
+            button1.Location = new Point(12, 554);
+            button1.Name = "button1";
+            button1.Size = new Size(167, 47);
+            button1.TabIndex = 2;
+            button1.Text = "清空异常数据";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
@@ -260,6 +271,7 @@
             Controls.Add(btn_Stop);
             Controls.Add(button6);
             Controls.Add(button5);
+            Controls.Add(button1);
             Controls.Add(button4);
             Controls.Add(btn_Start);
             Controls.Add(textBox2);
@@ -297,5 +309,6 @@
         private TextBox txt_Log;
         private TextBox textBox6;
         private Label label7;
+        private Button button1;
     }
 }
