@@ -362,12 +362,29 @@ namespace FixMysql
 
         private void button6_Click(object sender, EventArgs e)
         {
-            string backupFilePath = @"C:\CloudBatteryTestSystem.sql";
-            string connectionString = "Server=127.0.0.1;Database=CloudBatteryTestSystem;Port=3306;charset=utf8;uid=root;pwd=hyn@123;SslMode=none;AllowPublicKeyRetrieval=true;Pooling=true";
-            var result = ExtractUidAndPwd(connectionString);
+            // 弹出对话框，在 textBox5.Text 路径中选择备份文件
+            string initialDir = string.IsNullOrWhiteSpace(textBox5.Text) ? @"C:\" : textBox5.Text;
+            string backupFilePath = string.Empty;
 
-            string oldDatabaseName = "CloudBatteryTestSystem";
-            string newDatabaseName = $"{oldDatabaseName}_Backup_{DateTime.Now:yyyyMMddHHmmss}";
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = initialDir;
+                openFileDialog.Filter = "SQL 文件 (*.sql)|*.sql|所有文件 (*.*)|*.*";
+                openFileDialog.Title = "选择要恢复的数据库备份文件";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    backupFilePath = openFileDialog.FileName;
+                }
+                else
+                {
+                    SetLog("未选择备份文件，操作已取消");
+                    return;
+                }
+            }
+
+            string connectionString = textBox6.Text;
+            var result = ExtractUidAndPwd(connectionString);
+            string oldDatabaseName = textBox4.Text;
 
             if (!File.Exists(backupFilePath))
             {
@@ -378,37 +395,18 @@ namespace FixMysql
 
             try
             {
-                // Step 1: 重命名数据库
+                // 删除并创建数据库
                 using (var process = new Process())
                 {
-                    process.StartInfo.FileName = "mysql";
-                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} -e \"CREATE DATABASE {newDatabaseName}; USE {newDatabaseName}; SHOW TABLES FROM {oldDatabaseName};\"";
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.RedirectStandardError = true;
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.CreateNoWindow = true;
-
-                    process.Start();
-                    process.WaitForExit();
-
-                    if (process.ExitCode == 0)
+                    string mysqlExePath = @"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe";
+                    if (!File.Exists(mysqlExePath))
                     {
-                        SetLog($"数据库重命名成功: {oldDatabaseName} -> {newDatabaseName}");
-                    }
-                    else
-                    {
-                        string error = process.StandardError.ReadToEnd();
-                        SetLog($"数据库重命名失败: {error}");
-                        MessageBox.Show($"数据库重命名失败: {error}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        SetLog($"未找到 mysql.exe，请检查 MySQL 安装路径: {mysqlExePath}");
+                        MessageBox.Show($"未找到 mysql.exe，请检查 MySQL 安装路径: {mysqlExePath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                }
-                // Step 2: 删除并恢复数据库
-                using (var process = new Process())
-                {
-                    // 删除目标数据库
-                    process.StartInfo.FileName = "mysql";
-                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} -e \"DROP DATABASE IF EXISTS {oldDatabaseName}; CREATE DATABASE {oldDatabaseName};\"";
+                    process.StartInfo.FileName = mysqlExePath;
+                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} -e \"DROP DATABASE IF EXISTS `{oldDatabaseName}`; CREATE DATABASE `{oldDatabaseName}`;\"";
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.UseShellExecute = false;
@@ -433,14 +431,23 @@ namespace FixMysql
                 // 恢复数据库
                 using (var process = new Process())
                 {
-                    process.StartInfo.FileName = "mysql";
-                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} {oldDatabaseName} < \"{backupFilePath}\"";
+                    string mysqlExePath = @"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe";
+                    process.StartInfo.FileName = mysqlExePath;
+                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} {oldDatabaseName}";
+                    process.StartInfo.RedirectStandardInput = true;
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.CreateNoWindow = true;
 
                     process.Start();
+
+                    // 通过标准输入重定向导入 SQL 文件内容
+                    using (var fileStream = new StreamReader(backupFilePath))
+                    {
+                        process.StandardInput.Write(fileStream.ReadToEnd());
+                    }
+                    process.StandardInput.Close();
                     process.WaitForExit();
 
                     if (process.ExitCode == 0)

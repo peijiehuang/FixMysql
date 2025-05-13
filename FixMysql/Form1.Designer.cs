@@ -140,7 +140,6 @@
             // 
             // button6
             // 
-            button6.Enabled = false;
             button6.Location = new Point(650, 554);
             button6.Name = "button6";
             button6.Size = new Size(120, 47);
