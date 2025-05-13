@@ -170,18 +170,12 @@ namespace FixMysql
                     SetLog($"目标目录{backupFilePath}存在备份文件，则不备份");
                 }
 
-                // 删除原始 my.ini 文件
-                if (File.Exists(sourceFilePath))
-                {
-                    File.Delete(sourceFilePath);
-                    SetLog($"删除原始 my.ini 文件,{sourceFilePath}");
-                }
 
                 // 从运行程序的当前目录复制 myFix.ini 到目标路径并重命名为 my.ini
                 if (File.Exists(newFilePath))
                 {
-                    File.Copy(newFilePath, sourceFilePath);
-                    SetLog($"从运行程序的当前目录复制 myFix.ini 到目标路径并重命名为 my.ini,{sourceFilePath}");
+                    File.Copy(newFilePath, sourceFilePath,true);
+                    SetLog($"正在修改配置文件：从运行程序的当前目录复制 myFix.ini 到目标路径并重命名为 my.ini,{sourceFilePath}");
                 }
                 else
                 {
@@ -293,17 +287,10 @@ namespace FixMysql
                     }
                 }
 
-                // Step 2: 替换 my.ini 文件
-                if (File.Exists(sourceFilePath))
-                {
-                    File.Delete(sourceFilePath);
-                    SetLog($"删除原始 my.ini 文件: {sourceFilePath}");
-                }
-
                 if (File.Exists(newFilePath))
                 {
-                    File.Copy(newFilePath, sourceFilePath);
-                    SetLog($"替换 my.ini 文件成功: {sourceFilePath}");
+                    File.Copy(newFilePath, sourceFilePath,true);
+                    SetLog($"恢复 my.ini 文件成功: {sourceFilePath}");
                 }
                 else
                 {
