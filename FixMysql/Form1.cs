@@ -432,22 +432,23 @@ namespace FixMysql
                 using (var process = new Process())
                 {
                     string mysqlExePath = @"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe";
-                    process.StartInfo.FileName = mysqlExePath;
-                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} {oldDatabaseName}";
-                    process.StartInfo.RedirectStandardInput = true;
+                    if (!File.Exists(mysqlExePath))
+                    {
+                        SetLog($"未找到 mysql.exe，请检查 MySQL 安装路径: {mysqlExePath}");
+                        MessageBox.Show($"未找到 mysql.exe，请检查 MySQL 安装路径: {mysqlExePath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    // 使用 cmd.exe 执行带有重定向的命令
+                    process.StartInfo.FileName = "cmd.exe";
+                    process.StartInfo.Arguments = $"/c \"\"{mysqlExePath}\" -u{result.Uid} -p{result.Pwd} {oldDatabaseName} < \"{backupFilePath}\"\"";
+                    process.StartInfo.UseShellExecute = false;
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
-                    process.StartInfo.UseShellExecute = false;
                     process.StartInfo.CreateNoWindow = true;
 
                     process.Start();
-
-                    // 通过标准输入重定向导入 SQL 文件内容
-                    using (var fileStream = new StreamReader(backupFilePath))
-                    {
-                        process.StandardInput.Write(fileStream.ReadToEnd());
-                    }
-                    process.StandardInput.Close();
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
                     process.WaitForExit();
 
                     if (process.ExitCode == 0)
@@ -457,7 +458,6 @@ namespace FixMysql
                     }
                     else
                     {
-                        string error = process.StandardError.ReadToEnd();
                         SetLog($"数据库恢复失败: {error}");
                         MessageBox.Show($"数据库恢复失败: {error}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
