@@ -51,6 +51,7 @@
             label7 = new Label();
             button1 = new Button();
             button2 = new Button();
+            label8 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -120,31 +121,31 @@
             // 
             // button4
             // 
-            button4.Location = new Point(175, 554);
+            button4.Location = new Point(46, 564);
             button4.Name = "button4";
-            button4.Size = new Size(143, 47);
+            button4.Size = new Size(214, 59);
             button4.TabIndex = 2;
-            button4.Text = "修改配置文件";
+            button4.Text = "1、修改配置文件";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
             // button5
             // 
-            button5.Location = new Point(507, 554);
+            button5.Location = new Point(293, 564);
             button5.Name = "button5";
-            button5.Size = new Size(120, 47);
+            button5.Size = new Size(214, 59);
             button5.TabIndex = 2;
-            button5.Text = "备份数据库";
+            button5.Text = "2、备份数据库";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
             // button6
             // 
-            button6.Location = new Point(650, 554);
+            button6.Location = new Point(540, 564);
             button6.Name = "button6";
-            button6.Size = new Size(120, 47);
+            button6.Size = new Size(214, 59);
             button6.TabIndex = 2;
-            button6.Text = "恢复数据库";
+            button6.Text = "3、恢复数据库";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
@@ -244,29 +245,39 @@
             // 
             // button1
             // 
-            button1.Location = new Point(12, 554);
+            button1.Location = new Point(293, 650);
             button1.Name = "button1";
-            button1.Size = new Size(140, 47);
+            button1.Size = new Size(214, 59);
             button1.TabIndex = 2;
-            button1.Text = "清空异常数据";
+            button1.Text = "5、清空异常数据";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // button2
             // 
-            button2.Location = new Point(341, 554);
+            button2.Location = new Point(46, 650);
             button2.Name = "button2";
-            button2.Size = new Size(143, 47);
+            button2.Size = new Size(214, 59);
             button2.TabIndex = 2;
-            button2.Text = "恢复配置文件";
+            button2.Text = "4、恢复配置文件";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(65, 750);
+            label8.Name = "label8";
+            label8.Size = new Size(263, 72);
+            label8.TabIndex = 7;
+            label8.Text = "正常处理操作：1》2》3\r\n\r\n特殊情况操作：4》5》1》2》3";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2057, 663);
+            ClientSize = new Size(2057, 881);
+            Controls.Add(label8);
             Controls.Add(txt_Log);
             Controls.Add(label6);
             Controls.Add(label7);
@@ -322,5 +333,6 @@
         private Label label7;
         private Button button1;
         private Button button2;
+        private Label label8;
     }
 }
