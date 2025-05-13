@@ -143,6 +143,8 @@ namespace FixMysql
 
         private void button4_Click(object sender, EventArgs e)
         {
+            button4.Enabled = false;
+            SetLog("1、修改配置文件处理中");
             string sourceFilePath = textBox2.Text;// @"C:\ProgramData\MySQL\MySQL Server 8.0\my.ini";
             string backupDirPath = Path.Combine(textBox3.Text, DateTime.Now.ToString("yyyy-MM-dd"));//@"C:\ProgramData\MySQL\MySQL Server 8.0\bak";
             string backupFilePath = Path.Combine(backupDirPath, "my.ini");
@@ -203,6 +205,9 @@ namespace FixMysql
                 SetLog($"抛出异常: {ex.Message}");
                 MessageBox.Show($"抛出异常: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            button4.Enabled = true;
+
         }
 
         /// <summary>
@@ -225,6 +230,11 @@ namespace FixMysql
 
         private void button5_Click(object sender, EventArgs e)
         {
+            button5.Enabled = false;
+
+            SetLog("2、备份数据库处理中");
+
+
             // 数据库连接字符串
             string connectionString = textBox6.Text;
 
@@ -271,6 +281,7 @@ namespace FixMysql
                     if (process.ExitCode == 0)
                     {
                         SetLog($"数据库备份成功: {backupFilePath}");
+
                         MessageBox.Show("数据库备份成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -309,6 +320,8 @@ namespace FixMysql
                 SetLog($"操作失败: {ex.Message}");
                 MessageBox.Show($"操作失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            button5.Enabled = true;
+
         }
 
 
@@ -362,6 +375,11 @@ namespace FixMysql
 
         private void button6_Click(object sender, EventArgs e)
         {
+            button6.Enabled = false;
+
+            SetLog("3、恢复数据库处理中");
+
+
             // 弹出对话框，在 textBox5.Text 路径中选择备份文件
             string initialDir = string.IsNullOrWhiteSpace(textBox5.Text) ? @"C:\" : textBox5.Text;
             string backupFilePath = string.Empty;
@@ -468,6 +486,7 @@ namespace FixMysql
                 SetLog($"操作失败: {ex.Message}");
                 MessageBox.Show($"操作失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            button6.Enabled = true;
         }
 
         /// <summary>
@@ -485,6 +504,11 @@ namespace FixMysql
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+
+            SetLog("5、清空异常数据处理中");
+
+
             // 数据库连接字符串
             string connectionString = textBox6.Text;
 
@@ -495,10 +519,17 @@ namespace FixMysql
 
 
             ClearTables(result.Uid, result.Pwd, databaseName, ["BusinessStatisticsHistoricaldata"]);
+
+            button1.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button2.Enabled = false;
+
+            SetLog("4、恢复配置文件处理中");
+
+
             //恢复配置文件
             string newFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "my.ini");
 
@@ -510,6 +541,9 @@ namespace FixMysql
 
             // 重启 MySQL 服务
             ManageMysqlService(ServiceActionEnum.Restart, textBox1.Text);
+
+            button2.Enabled = true;
+
         }
     }
 }

@@ -268,9 +268,9 @@
             label8.AutoSize = true;
             label8.Location = new Point(65, 750);
             label8.Name = "label8";
-            label8.Size = new Size(263, 72);
+            label8.Size = new Size(430, 72);
             label8.TabIndex = 7;
-            label8.Text = "正常处理操作：1》2》3\r\n\r\n特殊情况操作：4》5》1》2》3";
+            label8.Text = "正常处理操作：1》2》3 选中备份出来的数据\r\n\r\n特殊情况操作：4》5》1》2》3 选中备份出来的数据\r\n";
             // 
             // Form1
             // 
