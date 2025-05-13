@@ -191,8 +191,8 @@ namespace FixMysql
                 // 重启 MySQL 服务
                 ManageMysqlService(ServiceActionEnum.Restart, textBox1.Text);
 
-                SetLog($"{sourceFilePath}，my.ini 文件已成功替换，并已经重启MySQL服务");
-                MessageBox.Show($"{sourceFilePath}，my.ini 文件已成功替换，并已经重启MySQL服务", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SetLog($"{sourceFilePath}，my.ini 文件已成功替换");
+                MessageBox.Show($"{sourceFilePath}，my.ini 文件已成功替换", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
@@ -250,13 +250,21 @@ namespace FixMysql
                         SetLog($"已删除存在的备份文件: {backupFilePath}");
                     }
 
-                    process.StartInfo.FileName = "mysqldump";
-                    process.StartInfo.Arguments = $"-u {result.Uid} -p {result.Pwd} --databases {databaseName} -r \"{backupFilePath}\"";
+                  
+                    // 修改 mysqldump 路径为绝对路径，假设 MySQL 安装在默认目录
+                    string mysqlBinPath = @"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe";
+                    if (!File.Exists(mysqlBinPath))
+                    {
+                        SetLog($"未找到 mysqldump.exe，请检查 MySQL 安装路径: {mysqlBinPath}");
+                        MessageBox.Show($"未找到 mysqldump.exe，请检查 MySQL 安装路径: {mysqlBinPath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    process.StartInfo.FileName = mysqlBinPath;
+                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} --databases {databaseName} -r \"{backupFilePath}\"";
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.CreateNoWindow = true;
-
                     process.Start();
                     process.WaitForExit();
 
