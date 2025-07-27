@@ -52,6 +52,10 @@
             button1 = new Button();
             button2 = new Button();
             label8 = new Label();
+            checkBox1 = new CheckBox();
+            btn_ReInstall = new Button();
+            label9 = new Label();
+            textBox7 = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -268,15 +272,57 @@
             label8.AutoSize = true;
             label8.Location = new Point(65, 750);
             label8.Name = "label8";
-            label8.Size = new Size(430, 72);
+            label8.Size = new Size(430, 120);
             label8.TabIndex = 7;
-            label8.Text = "正常处理操作：1》2》3 选中备份出来的数据\r\n\r\n特殊情况操作：4》5》1》2》3 选中备份出来的数据\r\n";
+            label8.Text = "正常处理操作：1》2》3 选中备份出来的数据\r\n\r\n特殊情况操作：4》5》1》2》3 选中备份出来的数据\r\n\r\n超级特殊情况：6一键重装MySQL";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Checked = true;
+            checkBox1.CheckState = CheckState.Checked;
+            checkBox1.Location = new Point(303, 524);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(252, 28);
+            checkBox1.TabIndex = 8;
+            checkBox1.Text = "备份数据库后恢复配置文件";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // btn_ReInstall
+            // 
+            btn_ReInstall.Location = new Point(540, 650);
+            btn_ReInstall.Name = "btn_ReInstall";
+            btn_ReInstall.Size = new Size(214, 59);
+            btn_ReInstall.TabIndex = 2;
+            btn_ReInstall.Text = "6、一键重装MySQL";
+            btn_ReInstall.UseVisualStyleBackColor = true;
+            btn_ReInstall.Click += btn_ReInstall_Click;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(43, 220);
+            label9.Name = "label9";
+            label9.Size = new Size(162, 24);
+            label9.TabIndex = 10;
+            label9.Text = "MySQL程序路径：";
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(282, 214);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(490, 30);
+            textBox7.TabIndex = 9;
+            textBox7.Text = "C:\\ProgramData\\MySQL\\MySQL Server 8.0";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2057, 881);
+            ClientSize = new Size(2057, 898);
+            Controls.Add(label9);
+            Controls.Add(textBox7);
+            Controls.Add(checkBox1);
             Controls.Add(label8);
             Controls.Add(txt_Log);
             Controls.Add(label6);
@@ -292,6 +338,7 @@
             Controls.Add(btn_Stop);
             Controls.Add(button6);
             Controls.Add(button5);
+            Controls.Add(btn_ReInstall);
             Controls.Add(button1);
             Controls.Add(button2);
             Controls.Add(button4);
@@ -334,5 +381,9 @@
         private Button button1;
         private Button button2;
         private Label label8;
+        private CheckBox checkBox1;
+        private Button btn_ReInstall;
+        private Label label9;
+        private TextBox textBox7;
     }
 }

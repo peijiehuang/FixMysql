@@ -174,7 +174,7 @@ namespace FixMysql
                 // 从运行程序的当前目录复制 myFix.ini 到目标路径并重命名为 my.ini
                 if (File.Exists(newFilePath))
                 {
-                    File.Copy(newFilePath, sourceFilePath,true);
+                    File.Copy(newFilePath, sourceFilePath, true);
                     SetLog($"正在修改配置文件：从运行程序的当前目录复制 myFix.ini 到目标路径并重命名为 my.ini,{sourceFilePath}");
                 }
                 else
@@ -184,7 +184,7 @@ namespace FixMysql
                     return;
                 }
 
-             
+
                 SetLog($"{sourceFilePath}，my.ini 文件已成功替换");
                 //MessageBox.Show($"{sourceFilePath}，my.ini 文件已成功替换", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -210,16 +210,23 @@ namespace FixMysql
         /// <param name="log"></param>
         private void SetLog(string log)
         {
-            if (txt_Log.InvokeRequired)
+            try
             {
-                // 如果当前线程不是 UI 线程，使用 Invoke 切换到 UI 线程
-                txt_Log.Invoke(() => txt_Log.AppendText($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}：{log}{Environment.NewLine}"));
+                if (txt_Log.InvokeRequired)
+                {
+                    // 如果当前线程不是 UI 线程，使用 Invoke 切换到 UI 线程
+                    txt_Log.Invoke(() => txt_Log.AppendText($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}：{log}{Environment.NewLine}"));
+                }
+                else
+                {
+                    // 如果当前线程是 UI 线程，直接操作
+                    txt_Log.AppendText($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}：{log}{Environment.NewLine}");
+                }
             }
-            else
+            catch
             {
-                // 如果当前线程是 UI 线程，直接操作
-                txt_Log.AppendText($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}：{log}{Environment.NewLine}");
             }
+
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -276,6 +283,11 @@ namespace FixMysql
                     {
                         SetLog($"数据库备份成功: {backupFilePath}");
 
+                        //打开路径
+                        if (MessageBox.Show($"数据库备份成功: {backupFilePath}\r\n是否打开备份文件所在目录？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                        {
+                            Process.Start("explorer.exe", backupDir);
+                        }
                         MessageBox.Show("数据库备份成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -287,20 +299,24 @@ namespace FixMysql
                     }
                 }
 
-                if (File.Exists(newFilePath))
-                {
-                    File.Copy(newFilePath, sourceFilePath,true);
-                    SetLog($"恢复 my.ini 文件成功: {sourceFilePath}");
-                }
-                else
-                {
-                    SetLog($"运行程序目录下 my.ini 文件不存在: {newFilePath}");
-                    MessageBox.Show("运行程序目录下 my.ini 文件不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
 
-                // Step 3: 重启 MySQL 服务
-                ManageMysqlService(ServiceActionEnum.Restart, textBox1.Text);
+                if (checkBox1.Checked)
+                {
+                    if (File.Exists(newFilePath))
+                    {
+                        File.Copy(newFilePath, sourceFilePath, true);
+                        SetLog($"恢复 my.ini 文件成功: {sourceFilePath}");
+                    }
+                    else
+                    {
+                        SetLog($"运行程序目录下 my.ini 文件不存在: {newFilePath}");
+                        MessageBox.Show("运行程序目录下 my.ini 文件不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Step 3: 重启 MySQL 服务
+                    ManageMysqlService(ServiceActionEnum.Restart, textBox1.Text);
+                }
             }
             catch (Exception ex)
             {
@@ -531,6 +547,94 @@ namespace FixMysql
 
             button2.Enabled = true;
 
+        }
+
+        private void btn_ReInstall_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //弹出对话框，需要输入密码123
+                string password = "123";
+
+                //检验输入的密码是否正确
+                //弹出对话框输入密码，如果正确则再弹出是否确定重装MySQL二次校验
+                string inputPassword = Microsoft.VisualBasic.Interaction.InputBox("请输入密码", "重装MySQL", "", -1, -1);
+                if (inputPassword != password)
+                {
+                    MessageBox.Show("不知道密码，就不要瞎搞哦", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DialogResult result = MessageBox.Show("首次弹出：是否确定重装MySQL？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    result = MessageBox.Show("最后一次弹出：是否确定重装MySQL？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        //执行重装MySQL的逻辑
+                        SetLog("正在重装MySQL...");
+
+                        //停止MySQL服务
+                        ManageMysqlService(ServiceActionEnum.Stop, textBox1.Text);
+
+
+                        var mysqlInstallPath = textBox7.Text;
+                        if (string.IsNullOrWhiteSpace(mysqlInstallPath))
+                        {
+                            MessageBox.Show("路径不存在，当前系统没安装过MySQL，无法重装MySQL", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        //重命名MySQL安装目录
+                        if (Directory.Exists(mysqlInstallPath))
+                        {
+                            var newPath = mysqlInstallPath + "_old_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                            Directory.Move(mysqlInstallPath, newPath);
+                            SetLog($"MySQL安装目录已重命名为: {newPath}");
+                        }
+                        else
+                        {
+                            SetLog($"MySQL安装目录不存在: {mysqlInstallPath}");
+                            MessageBox.Show($"MySQL安装目录不存在: {mysqlInstallPath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        //当前程序的MySQLBakup.zip压缩包解压到mysqlInstallPath
+                        var zipFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MySQLBakup.zip");
+
+                        if (File.Exists(zipFilePath))
+                        {
+                            //解压到mysqlInstallPath目录
+                            System.IO.Compression.ZipFile.ExtractToDirectory(zipFilePath, mysqlInstallPath);
+                            SetLog($"MySQLBakup.zip已解压到: {mysqlInstallPath}");
+
+                            // 解压完，还需要给mysqlInstallPath路径添加NETWORK SERVICE账号，并给完整的权限
+                            var dirInfo = new DirectoryInfo(mysqlInstallPath);
+                            var dirSecurity = dirInfo.GetAccessControl();
+                            dirSecurity.AddAccessRule(new System.Security.AccessControl.FileSystemAccessRule(
+                                "NETWORK SERVICE",
+                                System.Security.AccessControl.FileSystemRights.FullControl,
+                                System.Security.AccessControl.InheritanceFlags.ContainerInherit | System.Security.AccessControl.InheritanceFlags.ObjectInherit,
+                                System.Security.AccessControl.PropagationFlags.None,
+                                System.Security.AccessControl.AccessControlType.Allow
+                            ));
+                            dirInfo.SetAccessControl(dirSecurity);
+                            SetLog($"已为{mysqlInstallPath}添加NETWORK SERVICE账号的完全控制权限");
+
+                        }
+                        else
+                        {
+                            SetLog($"MySQLBakup.zip文件不存在: {zipFilePath}");
+                            MessageBox.Show($"MySQLBakup.zip文件不存在: {zipFilePath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SetLog(ex.Message);
+            }
+           
         }
     }
 }
