@@ -56,6 +56,7 @@
             btn_ReInstall = new Button();
             label9 = new Label();
             textBox7 = new TextBox();
+            label10 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -315,11 +316,21 @@
             textBox7.TabIndex = 9;
             textBox7.Text = "C:\\ProgramData\\MySQL\\MySQL Server 8.0";
             // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(1555, 846);
+            label10.Name = "label10";
+            label10.Size = new Size(459, 24);
+            label10.TabIndex = 11;
+            label10.Text = "开源项目：https://github.com/peijiehuang/FixMysql";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2057, 898);
+            Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(textBox7);
             Controls.Add(checkBox1);
@@ -385,5 +396,6 @@
         private Button btn_ReInstall;
         private Label label9;
         private TextBox textBox7;
+        private Label label10;
     }
 }
