@@ -29,11 +29,11 @@ namespace FixMysql
             if (!isAdmin)
             {
                 MessageBox.Show("请使用管理员权限运行本程序，否则部分功能可能无法正常使用。", "权限警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                SetLog("当前用户不是管理员账号，部分操作可能受限。");
+                SetLog("当前程序启动方式不是管理员账号，部分操作可能受限。");
             }
             else
             {
-                SetLog("当前用户为管理员账号。");
+                SetLog("当前程序启动方式为管理员账号。");
             }
 
             Task.Run(async () =>
