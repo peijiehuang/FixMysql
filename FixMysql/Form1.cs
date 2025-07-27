@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security.Principal;
 using System.ServiceProcess;
 
 namespace FixMysql
@@ -12,6 +13,29 @@ namespace FixMysql
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //检查是否为管理员账号
+            bool isAdmin = false;
+            try
+            {
+                WindowsIdentity identity = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch
+            {
+                isAdmin = false;
+            }
+
+            if (!isAdmin)
+            {
+                MessageBox.Show("请使用管理员权限运行本程序，否则部分功能可能无法正常使用。", "权限警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                SetLog("当前用户不是管理员账号，部分操作可能受限。");
+            }
+            else
+            {
+                SetLog("当前用户为管理员账号。");
+            }
+
             Task.Run(async () =>
             {
                 while (true)
