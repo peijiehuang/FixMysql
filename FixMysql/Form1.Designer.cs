@@ -58,6 +58,9 @@
             textBox7 = new TextBox();
             label10 = new Label();
             txt_DamagedTables = new TextBox();
+            button3 = new Button();
+            button7 = new Button();
+            button8 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -127,19 +130,19 @@
             // 
             // button4
             // 
-            button4.Location = new Point(46, 564);
+            button4.Location = new Point(18, 582);
             button4.Name = "button4";
-            button4.Size = new Size(214, 59);
+            button4.Size = new Size(239, 59);
             button4.TabIndex = 2;
-            button4.Text = "1、修改配置文件";
+            button4.Text = "1、修改配置文件（只读）";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
             // button5
             // 
-            button5.Location = new Point(307, 564);
+            button5.Location = new Point(283, 582);
             button5.Name = "button5";
-            button5.Size = new Size(214, 59);
+            button5.Size = new Size(239, 59);
             button5.TabIndex = 2;
             button5.Text = "2、备份数据库";
             button5.UseVisualStyleBackColor = true;
@@ -147,9 +150,9 @@
             // 
             // button6
             // 
-            button6.Location = new Point(49, 663);
+            button6.Location = new Point(18, 663);
             button6.Name = "button6";
-            button6.Size = new Size(214, 59);
+            button6.Size = new Size(239, 59);
             button6.TabIndex = 2;
             button6.Text = "4、恢复数据库";
             button6.UseVisualStyleBackColor = true;
@@ -251,9 +254,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(581, 663);
+            button1.Location = new Point(559, 663);
             button1.Name = "button1";
-            button1.Size = new Size(214, 59);
+            button1.Size = new Size(239, 59);
             button1.TabIndex = 2;
             button1.Text = "6、清空异常数据";
             button1.UseVisualStyleBackColor = true;
@@ -262,13 +265,12 @@
             // 
             // button2
             // 
-            button2.Location = new Point(309, 663);
+            button2.Location = new Point(282, 663);
             button2.Name = "button2";
-            button2.Size = new Size(214, 59);
+            button2.Size = new Size(239, 59);
             button2.TabIndex = 2;
             button2.Text = "5、恢复配置文件";
             button2.UseVisualStyleBackColor = true;
-            button2.Visible = false;
             button2.Click += button2_Click;
             // 
             // label8
@@ -292,9 +294,9 @@
             // 
             // btn_ReInstall
             // 
-            btn_ReInstall.Location = new Point(581, 564);
+            btn_ReInstall.Location = new Point(557, 582);
             btn_ReInstall.Name = "btn_ReInstall";
-            btn_ReInstall.Size = new Size(214, 59);
+            btn_ReInstall.Size = new Size(239, 59);
             btn_ReInstall.TabIndex = 2;
             btn_ReInstall.Text = "3、一键重装MySQL";
             btn_ReInstall.UseVisualStyleBackColor = true;
@@ -335,6 +337,36 @@
             txt_DamagedTables.TabIndex = 12;
             txt_DamagedTables.Text = "BusinessStatisticsHistoricaldata";
             // 
+            // button3
+            // 
+            button3.Location = new Point(18, 582);
+            button3.Name = "button3";
+            button3.Size = new Size(239, 59);
+            button3.TabIndex = 2;
+            button3.Text = "1、修改配置文件（只读）";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button4_Click;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(557, 582);
+            button7.Name = "button7";
+            button7.Size = new Size(239, 59);
+            button7.TabIndex = 2;
+            button7.Text = "3、一键重装MySQL";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += btn_ReInstall_Click;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(283, 582);
+            button8.Name = "button8";
+            button8.Size = new Size(239, 59);
+            button8.TabIndex = 2;
+            button8.Text = "2、备份数据库";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button5_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
@@ -359,10 +391,13 @@
             Controls.Add(btn_Restart);
             Controls.Add(btn_Stop);
             Controls.Add(button6);
+            Controls.Add(button8);
             Controls.Add(button5);
+            Controls.Add(button7);
             Controls.Add(btn_ReInstall);
             Controls.Add(button1);
             Controls.Add(button2);
+            Controls.Add(button3);
             Controls.Add(button4);
             Controls.Add(btn_Start);
             Controls.Add(textBox2);
@@ -409,5 +444,8 @@
         private TextBox textBox7;
         private Label label10;
         private TextBox txt_DamagedTables;
+        private Button button3;
+        private Button button7;
+        private Button button8;
     }
 }

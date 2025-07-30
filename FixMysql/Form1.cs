@@ -684,6 +684,8 @@ namespace FixMysql
                             dirInfo.SetAccessControl(dirSecurity);
                             SetLog($"已为{mysqlInstallPath}添加NETWORK SERVICE账号的完全控制权限");
 
+                            //启动MySQL服务
+                            ManageMysqlService(ServiceActionEnum.Start, textBox1.Text);
                         }
                         else
                         {
