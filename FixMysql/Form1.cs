@@ -294,8 +294,18 @@ namespace FixMysql
                         MessageBox.Show($"未找到 mysqldump.exe，请检查 MySQL 安装路径: {mysqlBinPath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
+                    
+                    // 假设有多个损坏的表名需要过滤
+                    var damagedTables = txt_DamagedTables.Text.Split(',').ToList();// new List<string> { "BusinessStatisticsHistoricaldata" /*, "OtherDamagedTable"*/ };
+
+                    // 构建 --ignore-table 参数
+                    var ignoreTableArgs = string.Join(" ", damagedTables.Select(t => $"--ignore-table={databaseName}.{t}"));
+
+                    // 备份时排除损坏表的数据
                     process.StartInfo.FileName = mysqlBinPath;
-                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} --databases {databaseName} -r \"{backupFilePath}\"";
+                    process.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} --databases {databaseName} {ignoreTableArgs} -r \"{backupFilePath}\"";
+
+
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.UseShellExecute = false;
@@ -306,6 +316,36 @@ namespace FixMysql
                     if (process.ExitCode == 0)
                     {
                         SetLog($"数据库备份成功: {backupFilePath}");
+
+                        // 备份完成后，单独导出损坏表的结构（不含数据），并追加到备份文件
+                        foreach (var table in damagedTables)
+                        {
+                            var structureFile = Path.GetTempFileName();
+                            using (var structureProcess = new Process())
+                            {
+                                structureProcess.StartInfo.FileName = mysqlBinPath;
+                                structureProcess.StartInfo.Arguments = $"-u {result.Uid} -p{result.Pwd} --no-data --databases {databaseName} --tables {table} -r \"{structureFile}\"";
+                                structureProcess.StartInfo.RedirectStandardOutput = false;
+                                structureProcess.StartInfo.RedirectStandardError = true;
+                                structureProcess.StartInfo.UseShellExecute = false;
+                                structureProcess.StartInfo.CreateNoWindow = true;
+                                structureProcess.Start();
+                                structureProcess.WaitForExit();
+
+                                if (structureProcess.ExitCode == 0)
+                                {
+                                    // 追加表结构到主备份文件
+                                    File.AppendAllText(backupFilePath, File.ReadAllText(structureFile));
+                                    SetLog($"已追加表结构：{table}");
+                                }
+                                else
+                                {
+                                    string error = structureProcess.StandardError.ReadToEnd();
+                                    SetLog($"导出表结构失败: {table}，错误信息: {error}");
+                                }
+                                File.Delete(structureFile);
+                            }
+                        }
 
                         //打开路径
                         if (MessageBox.Show($"数据库备份成功: {backupFilePath}\r\n是否打开备份文件所在目录？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)

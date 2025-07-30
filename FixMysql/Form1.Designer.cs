@@ -56,6 +56,8 @@
             btn_ReInstall = new Button();
             label9 = new Label();
             textBox7 = new TextBox();
+            label10 = new Label();
+            txt_DamagedTables = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -135,7 +137,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(293, 564);
+            button5.Location = new Point(307, 564);
             button5.Name = "button5";
             button5.Size = new Size(214, 59);
             button5.TabIndex = 2;
@@ -145,11 +147,11 @@
             // 
             // button6
             // 
-            button6.Location = new Point(540, 564);
+            button6.Location = new Point(49, 663);
             button6.Name = "button6";
             button6.Size = new Size(214, 59);
             button6.TabIndex = 2;
-            button6.Text = "3、恢复数据库";
+            button6.Text = "4、恢复数据库";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
@@ -249,38 +251,38 @@
             // 
             // button1
             // 
-            button1.Location = new Point(293, 650);
+            button1.Location = new Point(581, 663);
             button1.Name = "button1";
             button1.Size = new Size(214, 59);
             button1.TabIndex = 2;
-            button1.Text = "5、清空异常数据";
+            button1.Text = "6、清空异常数据";
             button1.UseVisualStyleBackColor = true;
+            button1.Visible = false;
             button1.Click += button1_Click;
             // 
             // button2
             // 
-            button2.Location = new Point(46, 650);
+            button2.Location = new Point(309, 663);
             button2.Name = "button2";
             button2.Size = new Size(214, 59);
             button2.TabIndex = 2;
-            button2.Text = "4、恢复配置文件";
+            button2.Text = "5、恢复配置文件";
             button2.UseVisualStyleBackColor = true;
+            button2.Visible = false;
             button2.Click += button2_Click;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(65, 750);
+            label8.Location = new Point(65, 757);
             label8.Name = "label8";
-            label8.Size = new Size(430, 120);
+            label8.Size = new Size(637, 144);
             label8.TabIndex = 7;
-            label8.Text = "正常处理操作：1》2》3 选中备份出来的数据\r\n\r\n特殊情况操作：4》5》1》2》3 选中备份出来的数据\r\n\r\n超级特殊情况：6一键重装MySQL";
+            label8.Text = "正常处理操作：1》2》3 》4 选中备份出来的数据\r\n\r\n如果点击2无法备份数据库，那么步骤2和4需要使用SQLyog 小海豚手动处理，\r\n先使用SQLyog 小海豚备份然\r\n后点步骤3一键重装MySQL，然后再用SQLyog 小海豚恢复数据\r\n\r\n";
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Checked = true;
-            checkBox1.CheckState = CheckState.Checked;
             checkBox1.Location = new Point(303, 524);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(252, 28);
@@ -290,11 +292,11 @@
             // 
             // btn_ReInstall
             // 
-            btn_ReInstall.Location = new Point(540, 650);
+            btn_ReInstall.Location = new Point(581, 564);
             btn_ReInstall.Name = "btn_ReInstall";
             btn_ReInstall.Size = new Size(214, 59);
             btn_ReInstall.TabIndex = 2;
-            btn_ReInstall.Text = "6、一键重装MySQL";
+            btn_ReInstall.Text = "3、一键重装MySQL";
             btn_ReInstall.UseVisualStyleBackColor = true;
             btn_ReInstall.Click += btn_ReInstall_Click;
             // 
@@ -315,11 +317,31 @@
             textBox7.TabIndex = 9;
             textBox7.Text = "C:\\ProgramData\\MySQL\\MySQL Server 8.0";
             // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(840, 651);
+            label10.Name = "label10";
+            label10.Size = new Size(523, 24);
+            label10.TabIndex = 11;
+            label10.Text = "过滤表，只需要导出表结构（正常不需要改动里面 格式：,隔开）";
+            // 
+            // txt_DamagedTables
+            // 
+            txt_DamagedTables.Location = new Point(846, 697);
+            txt_DamagedTables.Multiline = true;
+            txt_DamagedTables.Name = "txt_DamagedTables";
+            txt_DamagedTables.Size = new Size(1150, 155);
+            txt_DamagedTables.TabIndex = 12;
+            txt_DamagedTables.Text = "BusinessStatisticsHistoricaldata";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2057, 898);
+            ClientSize = new Size(2043, 929);
+            Controls.Add(txt_DamagedTables);
+            Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(textBox7);
             Controls.Add(checkBox1);
@@ -385,5 +407,7 @@
         private Button btn_ReInstall;
         private Label label9;
         private TextBox textBox7;
+        private Label label10;
+        private TextBox txt_DamagedTables;
     }
 }
